@@ -1,0 +1,30 @@
+<!--index.wxml-->
+<view class="reward">
+    <view class="reward_bg">
+        <image src="/images/bg1.jpg" mode="scaleToFill"></image>
+    </view>
+    <view class="reward_btn flex">
+        <view class="btn_bg">
+            <image src="/images/index_icon2.png"></image>
+            <view class="btn_box flexCenter">
+                <view class="reward_warp">
+                    <image src="/images/index_icon1.png"></image>
+                </view>
+                <view class="color" style="font-size:48rpx;" bindtap="intoPath" data-path="/pages/countDown/countDown">抽奖</view>
+            </view>
+        </view>
+    </view>
+    <view class="reward_cont">
+        <view class="reward_box">
+            <view class="introduct_tlt">
+                <view class="tlt_cont">
+                    <image src="/images/index_icon3.png"></image>
+                    <view style="font-size:34rpx;color:#333" class="tlt_text">抽奖说明</view>
+                </view>
+            </view>
+            <view class="font24" style="color:#462f2f">
+                1.内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 2.内容内容内容内容内容内容内容1.内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 2.内容内容内容内容内容内容内容
+            </view>
+        </view>
+    </view>
+</view>

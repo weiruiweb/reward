@@ -1,0 +1,92 @@
+<!--index.wxml-->
+<view class="reward">
+    <view class="reward_bg">
+        <image src="/images/bg2.jpg" mode="scaleToFill"></image>
+    </view>
+    <view class="reward_btn flex">
+        <view class="btn_bg">
+            <view class="btn_bg1 flex">
+                <view class="btn_bg2 color font32">
+                开奖 <text>●</text>  倒计时
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="reward_cont" bindtap="intoPath" data-path="/pages/rewardEnd/rewardEnd">
+        <view class="reward_box">
+           <image src="/images/time_bg.jpg"></image>
+           <view class="reward_time flex">
+               <view class="time_box flexCenter">
+                   <view class="time_day flexRowBetween">
+                       <view class="time1">
+                           <image src="/images/day1.jpg"></image>
+                           <view class="day">
+                               {{countDownDay}}
+                           </view>
+                       </view>
+                       <view class="time1">
+                           <image src="/images/day2.png"></image>
+                           <view class="day">
+                               {{countDownDayTwo}}
+                           </view>
+                       </view>
+                       <view class="time2 days color font24">
+                           天
+                       </view>
+                   </view>
+                  <view class="time_day flexRowBetween">
+                       <view class="time1">
+                           <image src="/images/day1.jpg"></image>
+                           <view class="day">
+                               {{countDownHour}}
+                           </view>
+                       </view>
+                       <view class="time1">
+                           <image src="/images/day2.png"></image>
+                           <view class="day">
+                               {{countDownHourTwo}}
+                           </view>
+                       </view>
+                       <view class="time2 days color font24">
+                           时
+                       </view>
+                   </view>
+                   <view class="time_day flexRowBetween">
+                       <view class="time1">
+                           <image src="/images/day2.png"></image>
+                           <view class="day">
+                               {{countDownMinute}}
+                           </view>
+                       </view>
+                       <view class="time1">
+                           <image src="/images/day2.png"></image>
+                           <view class="day">
+                               {{countDownMinuteTwo}}
+                           </view>
+                       </view>
+                       <view class="time2 days color font24">
+                           分
+                       </view>
+                   </view>
+                   <view class="time_day flexRowBetween">
+                       <view class="time1">
+                           <image src="/images/day2.png"></image>
+                           <view class="day">
+                               {{countDownSecond}}
+                           </view>
+                       </view>
+                       <view class="time1">
+                           <image src="/images/day2.png"></image>
+                           <view class="day">
+                               {{countDownSecondTwo}}
+                           </view>
+                       </view>
+                       <view class="time2 days color font24">
+                           秒
+                       </view>
+                   </view>
+               </view>
+           </view>
+        </view>
+    </view>
+</view>

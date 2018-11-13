@@ -1,0 +1,94 @@
+/**index.wxss**/
+@import "../../wxParse/wxParse.wxss"
+page{
+	width: 100%;
+	min-width:100%;
+}
+.reward{
+	width: 100%;
+	height:100vh;
+	position: relative;
+}
+.reward_bg{
+	width: 100%;
+	min-height:100%;
+	position: absolute;
+	left: 0;
+	top:0;
+}
+.reward_bg image{
+	width:100%;
+	height:100vh;
+}
+.reward_btn{
+	width:100%;
+	height:126rpx;
+	position: absolute;
+	left:0;
+	top:42%;
+}
+.btn_bg{
+	width:370rpx;
+	height:126rpx;
+	margin:0 auto;
+	position: relative;
+}
+.btn_bg image{
+	width:370rpx;
+	height:126rpx;
+}
+.btn_box{
+	width:100%;
+	height:100%;
+	position: absolute;
+	left:0;
+	top:0;
+}
+.reward_warp image{
+	width:76rpx;
+	height:76rpx;
+}
+.reward_warp{
+	margin-right: 22rpx;
+}
+.reward_cont{
+	width:86.8%;
+	padding:0 6.6%;
+	position: absolute;
+	left:0;
+	top:60%;
+}
+.reward_box{
+	width:94%;
+	height:85%;
+	padding:7.5% 3%;
+	background: #ffdfcd;
+	border-radius: 30rpx;
+	position: relative;
+}
+.introduct_tlt{
+	width:100%;
+	height:66rpx;
+	position: absolute;
+	top:-34rpx;
+	left:0;
+}
+.tlt_cont{
+	width:450rpx;
+	height:66rpx;
+	margin:0 auto;
+	position: relative;
+}
+.tlt_cont image{
+	width:100%;
+	height:100%;
+}
+.tlt_text{
+	width:100%;
+	height:100%;
+	position: absolute;
+	left:0;
+	top:0;
+	line-height: 66rpx;
+	text-align: center;
+}

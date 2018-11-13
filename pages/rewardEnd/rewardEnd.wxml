@@ -1,0 +1,48 @@
+<!--index.wxml-->
+<view class="reward">
+    <view class="reward_bg">
+        <image src="/images/bg3.jpg" mode="scaleToFill"></image>
+    </view>
+    
+    <view class="reward_cont">
+        <view class="open_reward">
+            <image src="/images/reward_end.jpg"></image>
+            <view class="rewards font32 color1">
+                恭喜获奖
+            </view>
+        </view>
+    </view>
+    <view class="reward_btn flex">
+        <view class="btn_bg">
+            <image src="/images/index_icon2.png"></image>
+            <view class="btn_box flexCenter">
+                <view class="reward_warp">
+                    <image src="/images/index_icon1.png"></image>
+                </view>
+                <view class="color font30" bindtap="reward">立即领取</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="mask" wx:if="{{is_show}}" catchtouchmove="true" bindtap="mask">
+</view>
+<view class="reward_message" wx:if="{{is_show}}"  catchtouchmove="true">
+    <view class="reward_infor">
+        <view class="close w710" bindtap="mask">
+            <image src="/images/close.jpg"></image>
+        </view>
+        <view class="infor_cont">
+            <view class="infor_list flex">
+                <view class="input_label font28">姓名:</view>
+                <input class="font28"></input>
+            </view>
+            <view class="infor_list flex">
+                <view class="input_label font28">电话:</view>
+                <input class="font28"></input>
+            </view>
+        </view>
+        <view class="submit_btn">
+            <image src="/images/infor_btn.jpg"></image>
+        </view>
+    </view>
+</view>
