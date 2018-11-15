@@ -8,8 +8,8 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#ff0000",
-    "navigationBarTitleText": "首页",
+    "navigationBarBackgroundColor": "#fc2735",
+    "navigationBarTitleText": "抽奖",
     "navigationBarTextStyle": "#fff"
   }
 }

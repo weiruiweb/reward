@@ -19,32 +19,21 @@
                <view class="time_box flexCenter">
                    <view class="time_day flexRowBetween">
                        <view class="time1">
-                           <image src="/images/day1.jpg"></image>
+                           <image src="/images/down1.png"></image>
                            <view class="day">
-                               {{countDownDay}}
+                               <view class="day_cont">{{countDownDay}}</view>
                            </view>
                        </view>
-                       <view class="time1">
-                           <image src="/images/day2.png"></image>
-                           <view class="day">
-                               {{countDownDayTwo}}
-                           </view>
-                       </view>
+            
                        <view class="time2 days color font24">
                            天
                        </view>
                    </view>
                   <view class="time_day flexRowBetween">
                        <view class="time1">
-                           <image src="/images/day1.jpg"></image>
+                           <image src="/images/down2.png"></image>
                            <view class="day">
-                               {{countDownHour}}
-                           </view>
-                       </view>
-                       <view class="time1">
-                           <image src="/images/day2.png"></image>
-                           <view class="day">
-                               {{countDownHourTwo}}
+                               <view class="day_cont">{{countDownHour}}</view>
                            </view>
                        </view>
                        <view class="time2 days color font24">
@@ -53,15 +42,9 @@
                    </view>
                    <view class="time_day flexRowBetween">
                        <view class="time1">
-                           <image src="/images/day2.png"></image>
+                           <image src="/images/down2.png"></image>
                            <view class="day">
-                               {{countDownMinute}}
-                           </view>
-                       </view>
-                       <view class="time1">
-                           <image src="/images/day2.png"></image>
-                           <view class="day">
-                               {{countDownMinuteTwo}}
+                               <view class="day_cont">{{countDownMinute}}</view>
                            </view>
                        </view>
                        <view class="time2 days color font24">
@@ -70,15 +53,9 @@
                    </view>
                    <view class="time_day flexRowBetween">
                        <view class="time1">
-                           <image src="/images/day2.png"></image>
+                           <image src="/images/down2.png"></image>
                            <view class="day">
-                               {{countDownSecond}}
-                           </view>
-                       </view>
-                       <view class="time1">
-                           <image src="/images/day2.png"></image>
-                           <view class="day">
-                               {{countDownSecondTwo}}
+                               <view class="day_cont">{{countDownSecond}}</view>
                            </view>
                        </view>
                        <view class="time2 days color font24">
