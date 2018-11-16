@@ -10,7 +10,7 @@
                 <view class="reward_warp">
                     <image src="/images/index_icon1.png"></image>
                 </view>
-                <view class="color" style="font-size:48rpx;" bindtap="intoPath" data-path="/pages/countDown/countDown">抽奖</view>
+                <view class="color" style="font-size:48rpx;" bindtap="addOrder">抽奖</view>
             </view>
         </view>
     </view>

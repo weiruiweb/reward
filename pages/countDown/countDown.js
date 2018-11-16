@@ -5,7 +5,7 @@ const app = getApp();
 
 Page({
   data: {
-    windowHeight: 654,
+
     maxtime: "",
     isHiddenLoading: true,
     isHiddenToast: true,
@@ -14,21 +14,17 @@ Page({
     countDownHour: 0,
     countDownMinute: 0,
     countDownSecond: 0,
-    countDownDayTwo: 0,
-    countDownHourTwo: 0,
-    countDownMinuteTwo: 0,
-    countDownSecondTwo: 0,
+   
   },
   //事件处理函数
   onLoad: function() {
-    this.setData( {
-      windowHeight: wx.getStorageSync( 'windowHeight' )
-    });
+  	const self = this;
+  	self.getMainData()
   },
  
   // 页面渲染完成后 调用
   onReady: function () {
-    var totalSecond = 1542367965 - Date.parse(new Date())/1000;
+    var totalSecond = self.data.mainData.end_time/1000 - Date.parse(new Date())/1000;
  
     var interval = setInterval(function () {
       // 秒数
@@ -74,6 +70,22 @@ Page({
         });
       }
     }.bind(this), 1000);
+  },
+
+   getMainData(){
+    const self = this;
+    const postData = {};
+    postData.searchItem = {
+      thirdapp_id:getApp().globalData.thirdapp_id,
+      id: self.data.id   
+  	}
+    const callback = (res)=>{
+	  if(res.info.data.length>0){
+	  	self.data.mainData = res.info.data[0]
+	  }
+      console.log(self.data.mainData)
+    };
+    api.skuGet(postData,callback);
   },
  
 
