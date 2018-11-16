@@ -19,11 +19,14 @@
             <view class="introduct_tlt">
                 <view class="tlt_cont">
                     <image src="/images/index_icon3.png"></image>
-                    <view style="font-size:34rpx;color:#333" class="tlt_text">抽奖说明</view>
+                    <view style="font-size:34rpx;color:#333" class="tlt_text">{{web_artData.title}}</view>
                 </view>
             </view>
             <view class="font24" style="color:#462f2f">
-                1.内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 2.内容内容内容内容内容内容内容1.内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 2.内容内容内容内容内容内容内容
+                <view class="content ql-editor" >
+	                <import src="../../wxParse/wxParse.wxml"/>
+	                <template is="wxParse" data="{{wxParseData:web_artData.content}}"/>
+	            </view> 
             </view>
         </view>
     </view>

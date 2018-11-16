@@ -2,8 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/countDown/countDown",
-    "pages/rewardEnd/rewardEnd",
-    "pages/index3/index3"
+    "pages/rewardEnd/rewardEnd"
 
   ],
   "window": {

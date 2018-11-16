@@ -1,4 +1,3 @@
-
 /**
  * Created by jimmy-jiang on 2016/11/21.
  */
@@ -12,10 +11,18 @@ class Base{
     //http 请求类, 当noRefech为true时，不做未授权重试机制
     request(params) {
         var that = this;
-        var baseRestUrl = 'https://liubin.yisuiyanghuoguo.com/liubin/public/index.php/api/v1/';
+        getApp().globalData.buttonClick = true;
+        var baseRestUrl = 'https://choujiang.yisuiyanghuoguo.com/api/public/index.php/api/v1/';
         var url=baseRestUrl + params.url;
-        
-        
+        const callback = (res)=>{
+            that.request(params);
+        };
+
+        if(params.data.tokenFuncName){
+            console.log('params.data.token');
+            params.data.token = token[params.data.tokenFuncName](callback);
+            console.log('params.data.token',params.data.token);
+        };
         
         wx.request({
             url: url,
@@ -30,20 +37,40 @@ class Base{
                 // 异常不要返回到回调中，就在request中处理，记录日志并showToast一个统一的错误即可
                 var code = res.data.solely_code;
                 if (res.data.solely_code == '200000') {
-                    const callback = (data)=>{
-                        that.request(data);
-                    };
+
+                    token[params.data.tokenFuncName](callback,{refreshToken:true});
+
+
+                    /*var pages = getCurrentPages()    //获取加载的页面
+                    var currentPage = pages[pages.length-1]    //获取当前页面的对象
+                    var pages = currentPage.route;
+                    console.log(pages);
+                    var pagesArray = pages.split('/');
+                    console.log(pagesArray)
+                    
                     if(wx.getStorageSync('threeToken')&&params.data.token == wx.getStorageSync('threeToken')){
                         that.logOff();
                     }else{
-                       token.getUserInfo(params,callback); 
-                    };
-                    
-                    
-                    
+                        console.log('pagesArray',pagesArray);
+                        if(pagesArray[1]=='mall'){
+                            
+                            token.getMallToken('mall',callback);      
+                        }else if(pagesArray[1]=='exhibition'){
+                            token.getExhibitionToken(params,callback); 
+                        }else if(pagesArray[1]=='gym'){
+                            token.getGymToken(params,callback); 
+                        }else if(pagesArray[1]=='hair'){
+                            token.getHairToken(params,callback); 
+                        }else if(pagesArray[1]=='hotel'){
+                            token.getHotelToken(params,callback); 
+                        }else if(pagesArray[1]=='restaurant'){
+                            token.getRestaurantToken(params,callback);
+                        }
+                    };*/
                 } else {
                     params.sCallback && params.sCallback(res.data);
-                }
+                };
+                getApp().globalData.buttonClick = false;
             },
             fail: function (err) {
                 console.log(err)
@@ -56,6 +83,7 @@ class Base{
                     duration:2000,
                     mask:true,
                 });
+                getApp().globalData.buttonClick = false;
             }
         });
 
@@ -79,6 +107,16 @@ class Base{
         return event.currentTarget.dataset[key];
     };
 
+    checkArrayEqual(array1,array2){
+        
+        if(array1.sort().toString() == array2.sort().toString()){
+            return true;
+        }else{
+            return false;
+        }
+        
+    };
+
 
     /*wxParse插件返回函数*/
     wxParseReturn(data){
@@ -96,7 +134,6 @@ class Base{
             if(pform[key]){
                 form[key] = pform[key];
             }
-            
         };   
         return form;           
     };
@@ -155,15 +192,95 @@ class Base{
             //result.push(key);
             if(type=='push'){
                 result.push(obj[key]);
-            }
-
+            };
             if(type=='unshift'){
                 result.unshift(obj[key]);
-            }
-            
-            
-        }
+            };
+        };
         return result;
+    };
+
+
+    getStorageArray(storageName,key,value){
+        const self = this;
+        if(wx.getStorageSync(storageName)){
+            var array = JSON.parse(wx.getStorageSync(storageName));
+            if(key&&value&&array){
+                var index = self.findItemInArray(array,key,value)[0];
+                return array[index];
+            }else if(array){
+                return array;
+            }else{
+                return false;
+            };
+        }else{
+            return [];
+        };
+    };
+
+    setStorageArray(storageName,item,key,limit,type='unshift'){
+
+        const self = this;
+        if(wx.getStorageSync(storageName)){
+            var array = JSON.parse(wx.getStorageSync(storageName));
+            if(array.length<limit){
+                self.setItemInArray(array,item,key,type);
+            }else{
+                if(type=='unshift'){
+                    array.splice(array.length-1,1);
+                }else{
+                    array.splice(0,1);
+                };
+                self.setItemInArray(array,item,key,type);
+            };
+        }else{
+            var array = [];
+            array[type](item);
+        };
+        array = JSON.stringify(array);
+        wx.setStorageSync(storageName,array);
+        return true;
+
+    };
+
+    delStorageArray(storageName,item,key){
+
+        const self = this;
+        var array = JSON.parse(wx.getStorageSync(storageName));
+        var index = self.findItemInArray(array,key,item[key])[0];
+        array.splice(index,1);
+        array = JSON.stringify(array);
+        wx.setStorageSync(storageName,array);
+        return true;
+
+    };
+
+
+
+    findItemInArray(array,fieldName,field){
+
+        for(var i=0;i<array.length;i++){
+            if(array[i][fieldName] == field){
+                return [i,array[i]];
+            }
+        };
+        return false;
+
+    };
+
+    setItemInArray(array,item,fieldName,type='push'){
+        var findI = -1;
+        for(var i=0;i<array.length;i++){
+            if(array[i][fieldName] == item[fieldName]){
+                findI = i;
+            };
+        };
+        if(findI>=0){
+            array[findI] = item;
+        }else{
+            array[type](item);
+        };
+        return array;
     };
 
     footOne(res,name,limit,objName){
@@ -186,7 +303,6 @@ class Base{
               var history = {};
               for(var i=0;i<historyArray.length;i++){
                 history[historyArray[i][name]] = historyArray[i];
-                
               };
             }
             wx.setStorageSync(objName,history);
@@ -279,11 +395,11 @@ class Base{
     };
 
 
-    showToast(title,type,duration,func){
+    showToast(title,type,func){
         wx.showToast({
             title:title,
             icon:type,
-            duration:duration?duration:1000,
+            duration:1000,
             mask:true,
             complete:func
         })
@@ -308,7 +424,10 @@ class Base{
                 url:path
             });
         }
+        
     };
+
+    
 
     arrayByItem(field,fieldName,array){
 
