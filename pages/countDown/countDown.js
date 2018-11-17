@@ -17,14 +17,18 @@ Page({
    
   },
   //事件处理函数
-  onLoad: function() {
+  onLoad: function(options) {
   	const self = this;
-  	self.getMainData()
+    self.data.order_id =options.id;
+  	self.getOrderData()
   },
  
   // 页面渲染完成后 调用
-  onReady: function () {
-    var totalSecond = self.data.mainData.end_time/1000 - Date.parse(new Date())/1000;
+  countDown() {
+    const self = this;
+    console.log(parseInt(self.data.mainData.product.end_time)/1000)
+    console.log(parseInt(Date.parse(new Date()))/1000)
+    var totalSecond = parseInt(self.data.mainData.product.end_time)/1000 - parseInt(Date.parse(new Date()))/1000;
  
     var interval = setInterval(function () {
       // 秒数
@@ -68,8 +72,28 @@ Page({
           countDownMinute: '00',
           countDownSecond: '00',
         });
+        api.pathTo('/pages/rewardEnd/rewardEnd?id='+self.data.order_id,'nav');
       }
     }.bind(this), 1000);
+  },
+
+  getOrderData(){
+    const self = this;
+    const postData = {};
+    postData.tokenFuncName='getProjectToken';
+    postData.searchItem = {
+      id:self.data.order_id
+    };
+    const callback  = (res)=>{
+      if(res.info.data.length>0){
+        self.data.orderData = res.info.data[0]
+      };
+      self.setData({
+        web_orderData:self.data.orderData
+      })
+      self.getMainData();
+    };
+    api.orderGet(postData,callback)
   },
 
    getMainData(){
@@ -77,13 +101,13 @@ Page({
     const postData = {};
     postData.searchItem = {
       thirdapp_id:getApp().globalData.thirdapp_id,
-      id: self.data.id   
+      id:self.data.orderData.passage1  
   	}
     const callback = (res)=>{
 	  if(res.info.data.length>0){
 	  	self.data.mainData = res.info.data[0]
 	  }
-      console.log(self.data.mainData)
+     self.countDown()
     };
     api.skuGet(postData,callback);
   },

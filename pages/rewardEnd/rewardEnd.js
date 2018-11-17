@@ -20,7 +20,8 @@ Page({
     const self = this;
     self.data.id = options.id;
     self.data.order_id = options.order_id;
-    self.getMainData();
+    
+    self.getOrderData()
   },
 
   getMainData(){
@@ -28,7 +29,7 @@ Page({
     const postData = {};
     postData.searchItem = {
       thirdapp_id:getApp().globalData.thirdapp_id,
-      id: self.data.id   
+      id: self.data.orderData.passage1  
   	}
     const callback = (res)=>{
 	  if(res.info.data.length>0){
@@ -44,6 +45,26 @@ Page({
     api.skuGet(postData,callback);
   },
 
+
+  getOrderData(){
+  	const self = this;
+  	const postData = {};
+  	postData.tokenFuncName='getProjectToken';
+  	postData.searchItem = {
+  		id:self.data.order_id
+  	};
+  	const callback  = (res)=>{
+  	  if(res.info.data.length>0){
+  	  	self.data.orderData = res.info.data[0]
+  	  };
+  	  self.setData({
+  	  	web_orderData:self.data.orderData
+  	  })
+  	  self.getMainData();
+  	};
+  	api.orderGet(postData,callback)
+  },
+
   orderUpdate(e){
     const self = this;
     const postData = {};
@@ -52,12 +73,12 @@ Page({
     postData.searchItem = {};
     postData.searchItem.id = self.data.order_id;
     const callback  = (res)=>{
- 	if(res.solely_code==100000){
- 		api.showToast('领取成功','none');
- 		self.setData({
- 			is_show:false
- 		})
- 	}
+	 	if(res.solely_code==100000){
+		  api.showToast('领取成功','none');
+		  setTimeout(function(){
+		    api.pathTo('/pages/index/index','nav');
+	      },500); 
+	 	}
     };
     api.orderUpdate(postData,callback);
   },

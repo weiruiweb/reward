@@ -7,10 +7,10 @@
         <view class="btn_bg">
             <image src="/images/index_icon2.png"></image>
             <view class="btn_box flexCenter">
-                <view class="reward_warp">
+                <view class="reward_warp" wx:if="{{web_orderItemNum<=0}}">
                     <image src="/images/index_icon1.png"></image>
                 </view>
-                <view class="color" style="font-size:48rpx;" bindtap="addOrder">抽奖</view>
+                <view class="color" style="font-size:48rpx;" bindtap="addOrder">{{web_orderItemNum>0?'查看抽奖结果':'立即抽奖'}}</view>
             </view>
         </view>
     </view>

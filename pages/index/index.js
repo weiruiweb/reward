@@ -20,9 +20,12 @@ Page({
 
     wx.showLoading();
     token.getProjectToken();
+    self.orderItemGet()
     
-    self.getMainData()
   },
+
+
+
 
 
   getMainData(){
@@ -48,44 +51,79 @@ Page({
         self.data.mainData = res.info.data[0];
       };
       self.getArtData();
-      wx.hideLoading();
       console.log(self.data.mainData)
     };
     api.productGet(postData,callback);
   },
 
-   addOrder(){
+
+  orderItemGet(){
+  	const self = this;
+  	const postData = {};
+  	postData.tokenFuncName='getProjectToken';
+  	postData.searchItem = {
+  		user_no:wx.getStorageSync('info').user_no,
+  		product_id:self.data.mainData.id
+  	};
+  	postData.getAfter = {
+  	  order:{
+  		tableName:'order',
+		middleKey:'order_no',
+		key:'order_no',
+		searchItem:{
+			status:1
+		},
+		condition:'=',
+		info:['passage1']
+  	  }
+  	};
+  	const callback = (res)=>{
+  	  if(res.solely_code==100000){
+  		self.data.orderItemData = res.info.data
+  	  };
+  	  console.log(self.data.orderItemData)
+  	  self.setData({
+  		web_orderItemNum:self.data.orderItemData.length
+  	  })
+  	  self.getMainData()
+  	};
+  	api.orderItemGet(postData,callback)
+  },
+
+  addOrder(){
     const self = this;
-    if(!self.data.order_id){
-      const postData = {
-        tokenFuncName:'getProjectToken',
-        product:[
-          {id:self.data.mainData.id,count:1}
-        ],
-        pay:{score:self.data.mainData.price},
-        data:{
-        	passage1:self.data.mainData.sku[0].id
-        },
-        type:1
-      };
-      const callback = (res)=>{
-        if(res&&res.solely_code==100000){
-        	self.data.order_id = res.info.id;
-        	if(self.data.mainData.title=='即时中奖'){
-				setTimeout(function(){
-		          api.pathTo('/pages/rewardEnd/rewardEnd?id='+self.data.mainData.sku[0].id+'&&order_id='+self.data.order_id,'redi');
-		        },800)	        		
-        	}else if(self.data.mainData.title=='延时中奖'){
-        		setTimeout(function(){
-		          api.pathTo('/pages/countDown/countDown?id='+self.data.mainData.sku[0].id+'&&order_id='+self.data.order_id,'redi');
-		        },800)
-        	}
-        };   
-      };
-      api.addOrder(postData,callback);
-    }else{
-      api.showToast('您已经参加过活动','none')
-    }   
+    if(self.data.orderItemData.length>0){
+	  setTimeout(function(){
+        api.pathTo('/pages/rewardEnd/rewardEnd?id='+self.data.orderItemData[0].order.passage1,'nav');
+      },800)	 	
+      return
+    };
+  	const postData = {
+      tokenFuncName:'getProjectToken',
+      product:[
+        {id:self.data.mainData.id,count:1}
+      ],
+      pay:{score:self.data.mainData.price},
+      data:{},
+      type:1
+	};
+	postData.data.passage1 = self.rewardChoosed();
+
+    const callback = (res)=>{
+      if(res&&res.solely_code==100000){
+       	self.data.order_id = res.info.id;
+       	if(self.data.mainData.title=='即时中奖'){
+		  setTimeout(function(){
+		    api.pathTo('/pages/rewardEnd/rewardEnd?id='+self.data.order_id,'nav');
+		  },800)	        		
+       	}else if(self.data.mainData.title=='延时中奖'){
+          setTimeout(function(){
+		    api.pathTo('/pages/countDown/countDown?id='+self.data.order_id,'nav');
+		  },800)
+       	}
+      };   
+    };
+    api.addOrder(postData,callback);
   },
 
 
@@ -120,6 +158,23 @@ Page({
       });  
     };
     api.articleGet(postData,callback);
+  },
+
+
+  rewardChoosed(){
+  	const self = this;
+  	var rewardNum = Math.ceil(Math.random()*self.data.mainData.passage1);  
+  	console.log('rewardChoosed',rewardNum);
+  	var start = 0;
+  	var id = 0;
+  	for (var i = 0; i < self.data.mainData.sku.length; i++) {
+  		start = self.data.mainData.sku[i].ratio+start;
+  		if(rewardNum<start){
+  			id = self.data.mainData.sku[i].id
+  		};
+  	};
+  	console.log('rewardChoosed',id)
+  	return id;
   },
 
 

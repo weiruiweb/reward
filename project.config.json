@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -56,7 +56,14 @@
 				{
 					"id": -1,
 					"name": "开奖",
-					"pathName": "pages/rewardEnd/rewardEnd"
+					"pathName": "pages/rewardEnd/rewardEnd",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "djs",
+					"pathName": "pages/countDown/countDown",
+					"query": "order_id=7"
 				}
 			]
 		}

@@ -14,19 +14,19 @@
             	<view style="width:100%;text-align:center">
 	            	<image src="{{web_mainData.mainImg[0].url}}"></image>
 	            </view>
-            	<view class="font28 color1" style="width:100%;text-align:center">{{web_mainData.title}}</view>
+            	<view class="font28 color1" style="width:100%;text-align:center">{{web_mainData.title}} {{web_mainData.description}}</view>
             </view>
         </view>
     </view>
 
-    <view class="reward_btn flex">
+    <view class="reward_btn flex" wx:if="{{web_orderData.passage2==''&&web_orderData.passage3==''}}">
         <view class="btn_bg">
             <image src="/images/index_icon2.png"></image>
             <view class="btn_box flexCenter">
                 <view class="reward_warp">
                     <image src="/images/index_icon1.png"></image>
                 </view>
-                <view class="color font30" bindtap="reward">立即领取</view>
+                <view class="color font30" bindtap="reward" >立即领取</view>
             </view>
         </view>
     </view>
@@ -48,7 +48,7 @@
                 <input class="font28" data-key="passage2" bindblur="changeBind"></input>
             </view>
         </view>
-        <view class="submit_btn" bindtap="submit">
+        <view class="submit_btn" bindtap="submit" >
             <image src="/images/infor_btn.jpg"></image>
         </view>
     </view>
