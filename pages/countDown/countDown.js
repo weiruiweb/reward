@@ -17,18 +17,15 @@ Page({
    
   },
   //事件处理函数
-  onLoad: function(options) {
-  	const self = this;
-    self.data.order_id =options.id;
-  	self.getOrderData()
-  },
- 
-  // 页面渲染完成后 调用
-  countDown() {
+  onLoad(options) {
     const self = this;
-    console.log(parseInt(self.data.mainData.product.end_time)/1000)
+    self.data.mainData = wx.getStorageSync('orderItem');
+    self.setData({
+      web_mainData:self.data.mainData,
+    });
+        console.log(parseInt(self.data.mainData.product.open_time)/1000)
     console.log(parseInt(Date.parse(new Date()))/1000)
-    var totalSecond = parseInt(self.data.mainData.product.end_time)/1000 - parseInt(Date.parse(new Date()))/1000;
+    var totalSecond = parseInt(self.data.mainData.product.open_time)/1000 - parseInt(Date.parse(new Date()))/1000;
  
     var interval = setInterval(function () {
       // 秒数
@@ -54,7 +51,7 @@ Page({
       var secStr = sec.toString();
       if (secStr.length == 1) secStr = '0' + secStr;
  
-      this.setData({
+      self.setData({
         countDownDay: dayStr,
         countDownHour: hrStr,
         countDownMinute: minStr,
@@ -66,61 +63,34 @@ Page({
         wx.showToast({
           title: '活动已结束',
         });
-        this.setData({
+        self.setData({
           countDownDay: '00',
           countDownHour: '00',
           countDownMinute: '00',
           countDownSecond: '00',
         });
-        api.pathTo('/pages/rewardEnd/rewardEnd?id='+self.data.order_id,'nav');
+        api.pathTo('/pages/rewardEnd/rewardEnd','nav');
       }
-    }.bind(this), 1000);
+    }.bind(self), 1000);
   },
 
-  getOrderData(){
-    const self = this;
-    const postData = {};
-    postData.tokenFuncName='getProjectToken';
-    postData.searchItem = {
-      id:self.data.order_id
-    };
-    const callback  = (res)=>{
-      if(res.info.data.length>0){
-        self.data.orderData = res.info.data[0]
-      };
-      self.setData({
-        web_orderData:self.data.orderData
-      })
-      self.getMainData();
-    };
-    api.orderGet(postData,callback)
-  },
+ 
 
-   getMainData(){
-    const self = this;
-    const postData = {};
-    postData.searchItem = {
-      thirdapp_id:getApp().globalData.thirdapp_id,
-      id:self.data.orderData.passage1  
-  	}
-    const callback = (res)=>{
-	  if(res.info.data.length>0){
-	  	self.data.mainData = res.info.data[0]
-	  }
-     self.countDown()
-    };
-    api.skuGet(postData,callback);
-  },
+
+
+
  
 
   intoPath(e){
     const self = this;
     api.pathTo(api.getDataSet(e,'path'),'nav');
   },
+
   intoPathRedirect(e){
     const self = this;
     api.pathTo(api.getDataSet(e,'path'),'redi');
   }, 
+
 })
 
   

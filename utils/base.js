@@ -117,6 +117,23 @@ class Base{
         
     };
 
+    checkLoadAll(array,item){
+        if(wx.getStorageSync('checkLoadAll')){
+            var testArray = wx.getStorageSync('checkLoadAll');
+        }else{
+            var testArray = [];
+        };
+        testArray.push(item);
+        if(this.checkArrayEqual(array,testArray)){
+            wx.hideLoading();
+            wx.removeStorageSync('checkLoadAll');
+            return true;
+        }else{
+            wx.setStorageSync('checkLoadAll',testArray);
+            return false
+        };
+    };
+
 
     /*wxParse插件返回函数*/
     wxParseReturn(data){
@@ -127,6 +144,8 @@ class Base{
         var res =  JSON.parse(JSON.stringify(form));   
         return res;           
     };
+
+
 
     fillForm(form,pform){
         var res =  JSON.parse(JSON.stringify(form));
@@ -405,26 +424,26 @@ class Base{
         })
     };
 
-    pathTo(path,type){
-
-        if(type=='nav'){
-            wx.navigateTo({
-                url:path
-            });
-        }else if(type=='tab'){
-            wx.switchTab({
-                url:path
-            });
-        }else if(type=='redi'){
-            wx.redirectTo({
-                url:path
-            });
-        }else if(type=='rela'){
-            wx.reLaunch({
-                url:path
-            });
-        }
-        
+    pathTo(path,type,time=0){
+        setTimeout(function(){
+            if(type=='nav'){
+                wx.navigateTo({
+                    url:path
+                });
+            }else if(type=='tab'){
+                wx.switchTab({
+                    url:path
+                });
+            }else if(type=='redi'){
+                wx.redirectTo({
+                    url:path
+                });
+            }else if(type=='rela'){
+                wx.reLaunch({
+                    url:path
+                });
+            }
+        },time);
     };
 
     
@@ -445,7 +464,7 @@ class Base{
                 wx.hideLoading();
                 this.showToast('授权请点击同意','fail');
               }else{
-                token.getUserInfo();
+
                 wx.getUserInfo({
                     success: function(user) {
                         callback&&callback(user.userInfo,setting);  

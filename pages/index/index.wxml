@@ -11,7 +11,7 @@
                     <view class="reward_warp" wx:if="{{web_orderItemNum<=0}}">
                         <image src="/images/index_icon1.png"></image>
                     </view>
-                    <view class="color" style="font-size:48rpx;" bindtap="addOrder">{{web_orderItemNum>0?'查看抽奖结果':'立即抽奖'}}</view>
+                    <button class="color" style="font-size:26rpx;" bindgetuserinfo="{{web_buttonClick?'':'submit'}}" open-type="getUserInfo">{{web_orderItemNum>0?'查看抽奖结果':(web_orderItemNum==-1?'抽奖活动尚未开始':'立即抽奖')}}{{web_buttonClick}}</button>
                 </view>
             </view>
         </view>

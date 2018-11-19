@@ -20,6 +20,7 @@ class Token {
     getProjectToken(callback,postData) { 
 
         if((postData&&postData.refreshToken)||!wx.getStorageSync('token')){
+            console.log('getProjectToken')
             var params = {
                 token_name:'token',
                 info_name:'info',

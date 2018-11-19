@@ -8,7 +8,6 @@ Page({
     is_show:false,
     submitData:{
       passage2:'',
-      passage3:''
     }
   },
   //事件处理函数
@@ -18,75 +17,43 @@ Page({
 
   onLoad(options) {
     const self = this;
-    self.data.id = options.id;
-    self.data.order_id = options.order_id;
-    
-    self.getOrderData()
-  },
-
-  getMainData(){
-    const self = this;
-    const postData = {};
-    postData.searchItem = {
-      thirdapp_id:getApp().globalData.thirdapp_id,
-      id: self.data.orderData.passage1  
-  	}
-    const callback = (res)=>{
-	  if(res.info.data.length>0){
-	  	self.data.mainData = res.info.data[0]
-	  }else{
-	  	api.showToast('很遗憾，您未中奖','none')
-	  }
-      self.setData({
-        web_mainData:self.data.mainData,
-      });
-      console.log(self.data.mainData)
-    };
-    api.skuGet(postData,callback);
+    self.data.mainData = wx.getStorageSync('orderItem');
+    self.setData({
+      web_mainData:self.data.mainData,
+      web_rewardLength:self.data.mainData.reward.length
+    });
+    console.log('onLoad',self.data.mainData)
   },
 
 
-  getOrderData(){
-  	const self = this;
-  	const postData = {};
-  	postData.tokenFuncName='getProjectToken';
-  	postData.searchItem = {
-  		id:self.data.order_id
-  	};
-  	const callback  = (res)=>{
-  	  if(res.info.data.length>0){
-  	  	self.data.orderData = res.info.data[0]
-  	  };
-  	  self.setData({
-  	  	web_orderData:self.data.orderData
-  	  })
-  	  self.getMainData();
-  	};
-  	api.orderGet(postData,callback)
-  },
 
   orderUpdate(e){
     const self = this;
     const postData = {};
     postData.tokenFuncName='getProjectToken';
+
     postData.data = api.cloneForm(self.data.submitData);
     postData.searchItem = {};
-    postData.searchItem.id = self.data.order_id;
+    postData.searchItem.id = self.data.mainData.order.id;
     const callback  = (res)=>{
-	 	if(res.solely_code==100000){
-		  api.showToast('领取成功','none');
-		  setTimeout(function(){
-		    api.pathTo('/pages/index/index','nav');
-	      },500); 
-	 	}
+  	 	if(res.solely_code==100000){
+
+  		  api.showToast('领取成功','none');
+  		  setTimeout(function(){
+  		    api.pathTo('/pages/index/index','nav');
+  	      },500); 
+  	 	}
     };
     api.orderUpdate(postData,callback);
   },
 
-   changeBind(e){
+  changeBind(e){
     const self = this;
+    self.data.orderItem = wx.getStorageSync('orderItem');
+    self.data.submitData.passage2 = self.data.orderItem.order.passage2
     api.fillChange(e,self,'submitData');
-    console.log(self.data.submitData);
+    console.log(self.data.orderItem);
+   
     self.setData({
       web_submitData:self.data.submitData,
     });  
