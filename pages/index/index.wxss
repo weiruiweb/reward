@@ -1,9 +1,6 @@
 /**index.wxss**/
 @import "../../wxParse/wxParse.wxss"
-page{
-	width: 100%;
-	min-width:100%;
-}
+
 .reward{
 	width: 100%;
 	height:100vh;
@@ -101,4 +98,102 @@ button::after{
 	top:0;
 	line-height: 66rpx;
 	text-align: center;
+}
+
+.page-body image{
+	width:100%;
+	height:400rpx;
+}
+swiper{
+	height:400rpx;
+}
+.swiper-block{
+  height: 400rpx;
+  width: 100%;
+}
+.swiper-item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow:unset;
+}
+.slide-image{
+  height:330rpx;
+  width: 520rpx;
+  border-radius: 9rpx;
+  box-shadow: 0px 0px 30rpx rgba(0, 0,0,.2); 
+  margin: 0rpx 30rpx;
+  z-index: 1;  
+}
+.active{
+  transform: scale(1.14);
+  transition:all .2s ease-in 0s;
+  z-index: 20; 
+}
+
+.big_title{
+	width:47%;
+	height:102rpx;
+	margin:0 auto;
+}
+.tlt_left{
+	width:25.5%;
+	height:3rpx;
+	background:#ccc;
+}
+.tlt_center{
+	width:44%;
+	text-align:center;
+	font-weight:700;
+}
+
+.product{
+	height:248rpx;
+	border-bottom:solid 1px #e0e0e0;
+}
+.product_box{
+	width:100%;
+	height:220rpx;
+
+}
+.product_detail{
+	width:100%;
+	height:190rpx;
+}
+.product_left{
+	width:39.5%;
+	height:220rpx;
+}
+.product_left image{
+	width:255rpx;
+	height:220rpx;
+}
+.product_right{
+	width:60.5%;
+	height:220rpx;
+}
+.product_price{
+	width:100%;
+}
+.test{
+	height:100%;
+	display:flex;
+	flex-flow: row wrap;
+	align-content:space-between;
+}
+.product_top{
+	width:100%;
+	height: 25%;
+}
+.product_center{
+	width:100%;
+	height:60%;
+	overflow:hidden;
+}
+.product_name{
+	width:60%
+}
+.product_date{
+	width:40%;
 }

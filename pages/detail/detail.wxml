@@ -1,0 +1,12 @@
+<!--index.wxml-->
+<view class="banner">
+    <image src="/images/banner1.jpg"></image>
+</view>
+<view class="big_title flexRowBetween">
+    <view class="tlt_left"></view>
+    <view class="tlt_center font32 color3">主要产品</view>
+    <view class="tlt_left"></view>
+</view>
+<view class="font28 color3 w710">
+    主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品主要产品
+</view>

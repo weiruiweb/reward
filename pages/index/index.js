@@ -15,8 +15,18 @@ Page({
     mainData:{},
     loadAllStandard:['getMainData','getArtData'],
     isLoadAll:false,
-    newOrderItem:{}
-
+    newOrderItem:{},
+    background: ['/images/banner1.jpg', '/images/banner2.jpg', '/images/banner3.jpg'],
+    indicatorDots: true,
+    vertical: false,
+    autoplay: true,
+    circular: true,
+    interval: 2000,
+    duration: 500,
+    previousMargin: 0,
+    nextMargin: 0,
+    currentId:0,
+    swiperIndex:0,
   },
   //事件处理函数
  

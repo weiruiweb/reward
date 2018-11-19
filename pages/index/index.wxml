@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="main">
+
     <view class="reward">
         <view class="reward_bg">
             <image src="/images/bg1.jpg" mode="scaleToFill"></image>
@@ -28,6 +28,74 @@
     	                <import src="../../wxParse/wxParse.wxml"/>
     	                <template is="wxParse" data="{{wxParseData:web_artData.content}}"/>
     	            </view> 
+                </view>
+            </view>
+        </view>
+    </view>
+
+<swiper  class="swiper-block"  previous-margin="90rpx" next-margin="90rpx" current="0"  autoplay="{{autoplay}}"
+        interval="{{interval}}" duration="{{duration}}" bindchange="swiperChange" circular="{{circular}}">
+
+    <block wx:for="{{background}}" wx:index="{{index}}">
+        <swiper-item class="swiper-item">
+            <image mode="aspectFill" src="{{item}}" class="slide-image {{swiperIndex == index ? 'active' : ''}}"/>
+        </swiper-item>
+    </block>
+</swiper>
+<view class="big_title flexRowBetween">
+    <view class="tlt_left"></view>
+    <view class="tlt_center font32 color3">新闻资讯 </view>
+    <view class="tlt_left"></view>
+</view>
+<view class="product flexRowBetween w710" bindtap="intoPath" data-path="/pages/detail/detail">
+    <view class="product_box flexRowBetween">
+        <view class="product_left">
+            <image src="/images/banner1.jpg"></image>
+        </view>
+        <view class="product_right flexRowBetween">
+            <view class="product_detail">
+                <view class="font32 color3 product_top">标题标题标题标题</view>
+                <view class="font24 color6 product_center">
+                   详情详情详情详情详情详情详情详情详情详情
+                </view>
+                <view class="font24 color6 product_top">
+                   2018-9-9
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="product flexRowBetween w710" bindtap="intoPath" data-path="/pages/detail/detail">
+    <view class="product_box flexRowBetween">
+        <view class="product_left">
+            <image src="/images/banner1.jpg"></image>
+        </view>
+        <view class="product_right flexRowBetween">
+            <view class="product_detail">
+                <view class="font32 color3 product_top">标题标题标题标题</view>
+                <view class="font24 color6 product_center">
+                   详情详情详情详情详情详情详情详情详情详情
+                </view>
+                <view class="font24 color6 product_top">
+                   2018-9-9
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="product flexRowBetween w710" bindtap="intoPath" data-path="/pages/detail/detail">
+    <view class="product_box flexRowBetween">
+        <view class="product_left">
+            <image src="/images/banner1.jpg"></image>
+        </view>
+        <view class="product_right flexRowBetween">
+            <view class="product_detail">
+                <view class="font32 color3 product_top">标题标题标题标题</view>
+                <view class="font24 color6 product_center">
+                   详情详情详情详情详情详情详情详情详情详情
+                </view>
+                <view class="font24 color6 product_top">
+                   2018-9-9
                 </view>
             </view>
         </view>
