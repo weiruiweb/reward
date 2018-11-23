@@ -8,6 +8,7 @@ const token = new Token();
 Page({
 
   data: {
+    
     arrayData: null,
     dialogData: null,
     isDialogShow: false,
@@ -28,6 +29,7 @@ Page({
     nextMargin: 0,
     currentId:0,
     swiperIndex:0,
+
   },
   //事件处理函数
  
@@ -233,9 +235,6 @@ Page({
        	self.data.order_id = res.info.id;
         self.data.newOrderItem.order = {id:res.info.id,passage2:'',passage1:self.rewardChoosed()};
         wx.setStorageSync('orderItem',self.data.newOrderItem);
-        self.setData({
-          web_buttonClick:false
-        });
        	self.finalRedirect();
       };
     };
@@ -248,6 +247,9 @@ Page({
     if(wx.getStorageSync('orderItem')){
       var orderItem = wx.getStorageSync('orderItem');
       wx.hideLoading();
+      self.setData({
+        web_buttonClick:false
+      });
       if(orderItem.product.type==1||(orderItem.product.type==2&&Date.parse(new Date())>orderItem.product.open_time)){
         api.pathTo('/pages/rewardEnd/rewardEnd','nav');
       }else if(orderItem.product.type==2&&Date.parse(new Date())<orderItem.product.open_time){
@@ -255,6 +257,9 @@ Page({
       };
     }else{
       wx.hideLoading();
+      self.setData({
+        web_buttonClick:false
+      });
       api.showToast('请抽奖','error');
     };
     
