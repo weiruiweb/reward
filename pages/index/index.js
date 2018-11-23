@@ -13,10 +13,11 @@ Page({
     isDialogShow: false,
     isScroll: true,
     mainData:{},
+    testData:[],
     loadAllStandard:['getMainData','getArtData'],
     isLoadAll:false,
     newOrderItem:{},
-    background: ['/images/banner1.jpg', '/images/banner2.jpg', '/images/banner3.jpg'],
+    background: ['/images/banner4.jpg','/images/banner5.jpg','/images/banner6.jpg'],
     indicatorDots: true,
     vertical: false,
     autoplay: true,
@@ -36,8 +37,14 @@ Page({
     wx.removeStorageSync('orderItem');
     
     wx.showLoading();
-    self.getMainData();
+    self.getTestData();
+  },
+
+  onShow(){
+   const self = this;
+
     self.getArtData();
+    self.getMainData();
   },
 
   getMainData(){
@@ -107,6 +114,36 @@ Page({
     api.articleGet(postData,callback);
   },
 
+  getTestData(){
+    const self = this;
+    const postData = {};
+    postData.searchItem = {
+      thirdapp_id:getApp().globalData.thirdapp_id
+    };
+    postData.getBefore = {
+      article:{
+        tableName:'label',
+        searchItem:{
+          title:['=',['资讯列表']],
+          thirdapp_id:['=',[getApp().globalData.thirdapp_id]],
+        },
+        middleKey:'menu_id',
+        key:'id',
+        condition:'in',
+      },
+    };
+    const callback = (res)=>{
+      if(res.info.data.length>0){
+        self.data.testData.push.apply(self.data.testData,res.info.data);
+      };
+
+      self.setData({
+        web_testData:self.data.testData,
+      });  
+    };
+    api.articleGet(postData,callback);
+  },
+
 
   orderItemGet(){
   	const self = this;
@@ -141,13 +178,15 @@ Page({
   	const callback = (res)=>{
       console.log(res);
   	  if(res.solely_code==100000){
-  		  self.data.orderItemData = res.info.data[0];
-        self.data.orderItemData.product = self.data.mainData;
-        wx.setStorageSync('orderItem',self.data.orderItemData);
-        self.data.isLoadAll = api.checkLoadAll(self.data.loadAllStandard,'getMainData');
-        self.setData({
-          web_orderItemNum:res.info.data.length
-        })
+        if(res.info.data.length>0){
+          self.data.orderItemData = res.info.data[0];
+          self.data.orderItemData.product = self.data.mainData;
+          wx.setStorageSync('orderItem',self.data.orderItemData); 
+        }
+          self.data.isLoadAll = api.checkLoadAll(self.data.loadAllStandard,'getMainData');
+          self.setData({
+            web_orderItemNum:res.info.data.length
+          })  
   	  };
   	};
   	api.orderItemGet(postData,callback)
@@ -171,12 +210,13 @@ Page({
     const callback = (res)=>{
       if(res&&res.solely_code==100000){
        	self.data.order_id = res.info.id;
-        self.data.newOrderItem.order = {id:res.info.id};
+        self.data.newOrderItem.order = {id:res.info.id,passage2:'',passage1:self.rewardChoosed()};
         wx.setStorageSync('orderItem',self.data.newOrderItem);
-       	self.finalRedirect();
         self.setData({
           web_buttonClick:false
         });
+       	self.finalRedirect();
+        
       };
     };
     api.addOrder(postData,callback);
@@ -227,11 +267,14 @@ Page({
   	for (var i = 0; i < self.data.mainData.sku.length; i++) {
   		start = self.data.mainData.sku[i].ratio+start;
   		total += self.data.mainData.sku[i].stock;
+
   		if(rewardNum<start){
   			if(self.data.mainData.sku[i].stock>0){
   				id = self.data.mainData.sku[i].id;
-          self.data.newOrderItem.reward = self.data.mainData.sku[i]
+          self.data.newOrderItem.reward = [];
+          self.data.newOrderItem.reward.push(self.data.mainData.sku[i])
   			}else{
+
   				id = -1;
   			};
   		}
@@ -239,15 +282,25 @@ Page({
   	if(total==self.data.mainData.passage1&&id==-1){
   		for (var i = 0; i < self.data.mainData.sku.length; i++) {
   			if(self.data.mainData.sku[i].stock>0){
+          console.log(id)
   				id = self.data.mainData.sku[i].id;
-          self.data.newOrderItem.reward = self.data.mainData.sku[i]
+           self.data.newOrderItem.reward = [];
+          self.data.newOrderItem.reward.push(self.data.mainData.sku[i])
   			};
 	  	};
-  	}else{
+  	}else if(id==-1){
   		id = 0;
       self.data.newOrderItem.reward = []
   	};
   	return id;
+    
+  },  
+
+  swiperChange(e) {
+    const that = this;
+    that.setData({
+      swiperIndex: e.detail.current,
+    })
   },
 
 
