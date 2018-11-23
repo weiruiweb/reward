@@ -20,13 +20,18 @@ Page({
   onLoad(options) {
     const self = this;
     self.data.mainData = wx.getStorageSync('orderItem');
+    if(!self.data.mainData){
+      api.showToast('网络故障','error');
+      api.pathTo('/pages/countDown/countDown','nav',300);
+      return;
+    };
     self.setData({
       web_mainData:self.data.mainData,
     });
-        console.log(parseInt(self.data.mainData.product.open_time)/1000)
+
+    console.log(parseInt(self.data.mainData.product.open_time)/1000)
     console.log(parseInt(Date.parse(new Date()))/1000)
     var totalSecond = parseInt(self.data.mainData.product.open_time)/1000 - parseInt(Date.parse(new Date()))/1000;
- 
     var interval = setInterval(function () {
       // 秒数
       var second = totalSecond;

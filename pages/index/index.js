@@ -32,17 +32,17 @@ Page({
   //事件处理函数
  
   onLoad(options) {
+
     const self = this;
-    wx.removeStorageSync('checkLoadAll');
-    wx.removeStorageSync('orderItem');
-    
     wx.showLoading();
     self.getTestData();
+
   },
 
   onShow(){
-   const self = this;
-
+    const self = this;
+    wx.removeStorageSync('checkLoadAll');
+    wx.removeStorageSync('orderItem');
     self.getArtData();
     self.getMainData();
   },
@@ -51,10 +51,10 @@ Page({
     const self = this;
     const postData = {};
     postData.searchItem = {
-    	start_time:['<',Date.parse(new Date())],
-    	end_time:['>',Date.parse(new Date())]
+      start_time:['<',Date.parse(new Date())],
+      end_time:['>',Date.parse(new Date())]
     };
-   	postData.getAfter={
+    postData.getAfter={
       sku:{
         tableName:'sku',
         middleKey:'product_no',
@@ -114,6 +114,27 @@ Page({
     api.articleGet(postData,callback);
   },
 
+  formSubmit(e){
+
+    const self = this;
+    if(e.detail.formId){
+
+      const postData = {};
+      postData.tokenFuncName='getProjectToken';
+      postData.data = {
+        title:e.detail.formId,
+        type:9,
+        passage1:(new Date()).getTime()/1000+7*86400
+      };
+      const callback = (res)=>{
+        console.log('messageAdd',res);
+      };
+      api.messageAdd(postData,callback);
+
+    };
+    
+  },
+
   getTestData(){
     const self = this;
     const postData = {};
@@ -136,7 +157,6 @@ Page({
       if(res.info.data.length>0){
         self.data.testData.push.apply(self.data.testData,res.info.data);
       };
-
       self.setData({
         web_testData:self.data.testData,
       });  
@@ -147,7 +167,6 @@ Page({
 
   orderItemGet(){
   	const self = this;
-    
   	const postData = {};
   	postData.tokenFuncName='getProjectToken';
   	postData.searchItem = {
@@ -202,7 +221,9 @@ Page({
         {id:self.data.mainData.id,count:1}
       ],
       pay:{score:self.data.mainData.price},
-      data:{},
+      data:{
+        passage1:self.data.mainData.type
+      },
       type:1
   	};
   	postData.data.passage1 = self.rewardChoosed();
@@ -216,7 +237,6 @@ Page({
           web_buttonClick:false
         });
        	self.finalRedirect();
-        
       };
     };
     api.addOrder(postData,callback);
@@ -227,12 +247,14 @@ Page({
 
     if(wx.getStorageSync('orderItem')){
       var orderItem = wx.getStorageSync('orderItem');
+      wx.hideLoading();
       if(orderItem.product.type==1||(orderItem.product.type==2&&Date.parse(new Date())>orderItem.product.open_time)){
         api.pathTo('/pages/rewardEnd/rewardEnd','nav');
       }else if(orderItem.product.type==2&&Date.parse(new Date())<orderItem.product.open_time){
         api.pathTo('/pages/countDown/countDown','nav');
       };
     }else{
+      wx.hideLoading();
       api.showToast('请抽奖','error');
     };
     
@@ -240,9 +262,15 @@ Page({
 
 
   submit(){
-  	const self = this;
 
+  	const self = this;
+    
     if(!self.data.isLoadAll||JSON.stringify(self.data.mainData)=='{}') return;
+    if(self.data.orderItemData){
+      api.showToast('您已参加过抽奖','error');
+      return;
+    };
+    wx.showLoading();
     if(wx.getStorageSync('orderItem')){
       self.finalRedirect();
       return;
@@ -255,29 +283,33 @@ Page({
       };
       api.getAuthSetting(callback); 
     };
+
   },
 
 
   rewardChoosed(){
+
   	const self = this;
   	var rewardNum = Math.ceil(Math.random()*self.data.mainData.passage1);  
   	var start = 0;
   	var id = 0;
   	var total = 0;
   	for (var i = 0; i < self.data.mainData.sku.length; i++) {
-  		start = self.data.mainData.sku[i].ratio+start;
-  		total += self.data.mainData.sku[i].stock;
+      if(self.data.mainData.sku[i].ratio>0){
+        start = self.data.mainData.sku[i].ratio+start;
+        total += self.data.mainData.sku[i].stock;
 
-  		if(rewardNum<start){
-  			if(self.data.mainData.sku[i].stock>0){
-  				id = self.data.mainData.sku[i].id;
-          self.data.newOrderItem.reward = [];
-          self.data.newOrderItem.reward.push(self.data.mainData.sku[i])
-  			}else{
+        if(rewardNum<start){
+          if(self.data.mainData.sku[i].stock>0){
+            id = self.data.mainData.sku[i].id;
+            self.data.newOrderItem.reward = [];
+            self.data.newOrderItem.reward.push(self.data.mainData.sku[i])
+          }else{
 
-  				id = -1;
-  			};
-  		}
+            id = -1;
+          };
+        }
+      };
   	};
   	if(total==self.data.mainData.passage1&&id==-1){
   		for (var i = 0; i < self.data.mainData.sku.length; i++) {
@@ -310,11 +342,11 @@ Page({
     api.pathTo(api.getDataSet(e,'path'),'nav');
   },
 
-
   intoPathRedirect(e){
     const self = this;
     api.pathTo(api.getDataSet(e,'path'),'redi');
   }, 
+
 
 
 })

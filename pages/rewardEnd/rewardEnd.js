@@ -18,6 +18,11 @@ Page({
   onLoad(options) {
     const self = this;
     self.data.mainData = wx.getStorageSync('orderItem');
+    if(!self.data.mainData){
+      api.showToast('网络故障','error');
+      api.pathTo('/pages/countDown/countDown','nav',300);
+      return;
+    };
     self.setData({
       web_mainData:self.data.mainData,
       web_rewardLength:self.data.mainData.reward.length
@@ -37,7 +42,6 @@ Page({
     postData.searchItem.id = self.data.mainData.order.id;
     const callback  = (res)=>{
   	 	if(res.solely_code==100000){
-
   		  api.showToast('领取成功','none');
   		  setTimeout(function(){
   		    api.pathTo('/pages/index/index','nav');

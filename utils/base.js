@@ -18,7 +18,7 @@ class Base{
             that.request(params);
         };
 
-        if(params.data.tokenFuncName){
+        if(params.data.tokenFuncName&&!params.data.token){
             console.log('params.data.token');
             params.data.token = token[params.data.tokenFuncName](callback);
             console.log('params.data.token',params.data.token);
@@ -40,33 +40,6 @@ class Base{
 
                     token[params.data.tokenFuncName](callback,{refreshToken:true});
 
-
-                    /*var pages = getCurrentPages()    //获取加载的页面
-                    var currentPage = pages[pages.length-1]    //获取当前页面的对象
-                    var pages = currentPage.route;
-                    console.log(pages);
-                    var pagesArray = pages.split('/');
-                    console.log(pagesArray)
-                    
-                    if(wx.getStorageSync('threeToken')&&params.data.token == wx.getStorageSync('threeToken')){
-                        that.logOff();
-                    }else{
-                        console.log('pagesArray',pagesArray);
-                        if(pagesArray[1]=='mall'){
-                            
-                            token.getMallToken('mall',callback);      
-                        }else if(pagesArray[1]=='exhibition'){
-                            token.getExhibitionToken(params,callback); 
-                        }else if(pagesArray[1]=='gym'){
-                            token.getGymToken(params,callback); 
-                        }else if(pagesArray[1]=='hair'){
-                            token.getHairToken(params,callback); 
-                        }else if(pagesArray[1]=='hotel'){
-                            token.getHotelToken(params,callback); 
-                        }else if(pagesArray[1]=='restaurant'){
-                            token.getRestaurantToken(params,callback);
-                        }
-                    };*/
                 } else {
                     params.sCallback && params.sCallback(res.data);
                 };
@@ -464,13 +437,18 @@ class Base{
                 wx.hideLoading();
                 this.showToast('授权请点击同意','fail');
               }else{
-
                 wx.getUserInfo({
                     success: function(user) {
+
+                        /*var params = {
+                            token_name:'token',
+                            info_name:'info',
+                            thirdapp_id:2
+                        };*/
+                        //token.getUserInfo(params);
                         callback&&callback(user.userInfo,setting);  
                     }
                 });
-                
               };
             }
         });

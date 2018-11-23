@@ -50,8 +50,17 @@
                     <view class="reward_warp" wx:if="{{web_orderItemNum<=0}}">
                         <image src="/images/index_icon1.png"></image>
                     </view>
-                    <button class="color" style="font-size:26rpx;" bindgetuserinfo="{{web_buttonClick?'':'submit'}}" open-type="getUserInfo">{{web_orderItemNum>0?'查看抽奖结果':(web_orderItemNum==-1?'抽奖活动尚未开始':'立即抽奖')}}</button>
+                    <form bindsubmit="formSubmit" report-submit="true">
+                        <button formType="submit" class='btn'>
+                            <form bindsubmit="formSubmit" report-submit="true">
+                                <button formType="submit" class='btn'>
+                                    <button formType="submit" class="color" style="font-size:26rpx;" bindgetuserinfo="{{web_buttonClick?'':'submit'}}" open-type="getUserInfo">{{web_orderItemNum>0?'查看抽奖结果':(web_orderItemNum==-1?'抽奖活动尚未开始':'立即抽奖')}}</button>
+                                </button>
+                            </form>
+                        </button>
+                    </form>
                 </view>
+
             </view>
         </view>
         <view class="reward_cont">
