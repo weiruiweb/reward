@@ -8,7 +8,7 @@ const token = new Token();
 Page({
 
   data: {
-    
+
     arrayData: null,
     dialogData: null,
     isDialogShow: false,
@@ -271,10 +271,7 @@ Page({
   	const self = this;
     
     if(!self.data.isLoadAll||JSON.stringify(self.data.mainData)=='{}') return;
-    if(self.data.orderItemData){
-      api.showToast('您已参加过抽奖','error');
-      return;
-    };
+    
     wx.showLoading();
     if(wx.getStorageSync('orderItem')){
       self.finalRedirect();
